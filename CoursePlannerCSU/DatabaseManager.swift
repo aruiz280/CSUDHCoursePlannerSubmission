@@ -249,6 +249,26 @@ extension DatabaseManager {
             print("❌ Error inserting course: \(error)")
         }
     }
+    
+    // DatabaseManager.swift
+
+    /// Clears all data from the CompletedCourses table.
+    func clearCompletedCoursesTable() {
+        guard let db = db else {
+            print("Database connection not initialized.")
+            return
+        }
+        let query = "DELETE FROM CompletedCourses"
+        do {
+            try db.run(query)
+            print("CompletedCourses table cleared successfully.")
+        } catch {
+            print("Error clearing CompletedCourses table: \(error)")
+        }
+    }
+
 }
+
+
 
 

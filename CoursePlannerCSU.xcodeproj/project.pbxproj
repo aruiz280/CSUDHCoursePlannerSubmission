@@ -1,0 +1,587 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		833F85632CE3196300AC8C7E /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 833F85622CE3196300AC8C7E /* SQLite */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		833F853D2CE315C500AC8C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 833F85242CE315C400AC8C7E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 833F852B2CE315C400AC8C7E;
+			remoteInfo = CoursePlannerCSU;
+		};
+		833F85472CE315C500AC8C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 833F85242CE315C400AC8C7E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 833F852B2CE315C400AC8C7E;
+			remoteInfo = CoursePlannerCSU;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		833F852C2CE315C400AC8C7E /* CoursePlannerCSU.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoursePlannerCSU.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		833F853C2CE315C500AC8C7E /* CoursePlannerCSUTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoursePlannerCSUTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		833F85462CE315C500AC8C7E /* CoursePlannerCSUUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoursePlannerCSUUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		833F852E2CE315C400AC8C7E /* CoursePlannerCSU */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = CoursePlannerCSU;
+			sourceTree = "<group>";
+		};
+		833F853F2CE315C500AC8C7E /* CoursePlannerCSUTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = CoursePlannerCSUTests;
+			sourceTree = "<group>";
+		};
+		833F85492CE315C500AC8C7E /* CoursePlannerCSUUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = CoursePlannerCSUUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		833F85292CE315C400AC8C7E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				833F85632CE3196300AC8C7E /* SQLite in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		833F85392CE315C500AC8C7E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		833F85432CE315C500AC8C7E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		833F85232CE315C400AC8C7E = {
+			isa = PBXGroup;
+			children = (
+				833F852E2CE315C400AC8C7E /* CoursePlannerCSU */,
+				833F853F2CE315C500AC8C7E /* CoursePlannerCSUTests */,
+				833F85492CE315C500AC8C7E /* CoursePlannerCSUUITests */,
+				833F852D2CE315C400AC8C7E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		833F852D2CE315C400AC8C7E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				833F852C2CE315C400AC8C7E /* CoursePlannerCSU.app */,
+				833F853C2CE315C500AC8C7E /* CoursePlannerCSUTests.xctest */,
+				833F85462CE315C500AC8C7E /* CoursePlannerCSUUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		833F852B2CE315C400AC8C7E /* CoursePlannerCSU */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 833F85502CE315C500AC8C7E /* Build configuration list for PBXNativeTarget "CoursePlannerCSU" */;
+			buildPhases = (
+				833F85282CE315C400AC8C7E /* Sources */,
+				833F85292CE315C400AC8C7E /* Frameworks */,
+				833F852A2CE315C400AC8C7E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				833F852E2CE315C400AC8C7E /* CoursePlannerCSU */,
+			);
+			name = CoursePlannerCSU;
+			packageProductDependencies = (
+				833F85622CE3196300AC8C7E /* SQLite */,
+			);
+			productName = CoursePlannerCSU;
+			productReference = 833F852C2CE315C400AC8C7E /* CoursePlannerCSU.app */;
+			productType = "com.apple.product-type.application";
+		};
+		833F853B2CE315C500AC8C7E /* CoursePlannerCSUTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 833F85532CE315C500AC8C7E /* Build configuration list for PBXNativeTarget "CoursePlannerCSUTests" */;
+			buildPhases = (
+				833F85382CE315C500AC8C7E /* Sources */,
+				833F85392CE315C500AC8C7E /* Frameworks */,
+				833F853A2CE315C500AC8C7E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				833F853E2CE315C500AC8C7E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				833F853F2CE315C500AC8C7E /* CoursePlannerCSUTests */,
+			);
+			name = CoursePlannerCSUTests;
+			packageProductDependencies = (
+			);
+			productName = CoursePlannerCSUTests;
+			productReference = 833F853C2CE315C500AC8C7E /* CoursePlannerCSUTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		833F85452CE315C500AC8C7E /* CoursePlannerCSUUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 833F85562CE315C500AC8C7E /* Build configuration list for PBXNativeTarget "CoursePlannerCSUUITests" */;
+			buildPhases = (
+				833F85422CE315C500AC8C7E /* Sources */,
+				833F85432CE315C500AC8C7E /* Frameworks */,
+				833F85442CE315C500AC8C7E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				833F85482CE315C500AC8C7E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				833F85492CE315C500AC8C7E /* CoursePlannerCSUUITests */,
+			);
+			name = CoursePlannerCSUUITests;
+			packageProductDependencies = (
+			);
+			productName = CoursePlannerCSUUITests;
+			productReference = 833F85462CE315C500AC8C7E /* CoursePlannerCSUUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		833F85242CE315C400AC8C7E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					833F852B2CE315C400AC8C7E = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					833F853B2CE315C500AC8C7E = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 833F852B2CE315C400AC8C7E;
+					};
+					833F85452CE315C500AC8C7E = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 833F852B2CE315C400AC8C7E;
+					};
+				};
+			};
+			buildConfigurationList = 833F85272CE315C400AC8C7E /* Build configuration list for PBXProject "CoursePlannerCSU" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 833F85232CE315C400AC8C7E;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				833F85612CE3196300AC8C7E /* XCRemoteSwiftPackageReference "SQLite" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 833F852D2CE315C400AC8C7E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				833F852B2CE315C400AC8C7E /* CoursePlannerCSU */,
+				833F853B2CE315C500AC8C7E /* CoursePlannerCSUTests */,
+				833F85452CE315C500AC8C7E /* CoursePlannerCSUUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		833F852A2CE315C400AC8C7E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		833F853A2CE315C500AC8C7E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		833F85442CE315C500AC8C7E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		833F85282CE315C400AC8C7E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		833F85382CE315C500AC8C7E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		833F85422CE315C500AC8C7E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		833F853E2CE315C500AC8C7E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 833F852B2CE315C400AC8C7E /* CoursePlannerCSU */;
+			targetProxy = 833F853D2CE315C500AC8C7E /* PBXContainerItemProxy */;
+		};
+		833F85482CE315C500AC8C7E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 833F852B2CE315C400AC8C7E /* CoursePlannerCSU */;
+			targetProxy = 833F85472CE315C500AC8C7E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		833F854E2CE315C500AC8C7E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		833F854F2CE315C500AC8C7E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		833F85512CE315C500AC8C7E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"CoursePlannerCSU/Preview Content\"";
+				DEVELOPMENT_TEAM = 6S73XRZ83D;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aruiz260.CoursePlannerCSU;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		833F85522CE315C500AC8C7E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"CoursePlannerCSU/Preview Content\"";
+				DEVELOPMENT_TEAM = 6S73XRZ83D;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aruiz260.CoursePlannerCSU;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		833F85542CE315C500AC8C7E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aruiz260.CoursePlannerCSUTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CoursePlannerCSU.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CoursePlannerCSU";
+			};
+			name = Debug;
+		};
+		833F85552CE315C500AC8C7E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aruiz260.CoursePlannerCSUTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CoursePlannerCSU.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CoursePlannerCSU";
+			};
+			name = Release;
+		};
+		833F85572CE315C500AC8C7E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aruiz260.CoursePlannerCSUUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CoursePlannerCSU;
+			};
+			name = Debug;
+		};
+		833F85582CE315C500AC8C7E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aruiz260.CoursePlannerCSUUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CoursePlannerCSU;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		833F85272CE315C400AC8C7E /* Build configuration list for PBXProject "CoursePlannerCSU" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				833F854E2CE315C500AC8C7E /* Debug */,
+				833F854F2CE315C500AC8C7E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		833F85502CE315C500AC8C7E /* Build configuration list for PBXNativeTarget "CoursePlannerCSU" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				833F85512CE315C500AC8C7E /* Debug */,
+				833F85522CE315C500AC8C7E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		833F85532CE315C500AC8C7E /* Build configuration list for PBXNativeTarget "CoursePlannerCSUTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				833F85542CE315C500AC8C7E /* Debug */,
+				833F85552CE315C500AC8C7E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		833F85562CE315C500AC8C7E /* Build configuration list for PBXNativeTarget "CoursePlannerCSUUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				833F85572CE315C500AC8C7E /* Debug */,
+				833F85582CE315C500AC8C7E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		833F85612CE3196300AC8C7E /* XCRemoteSwiftPackageReference "SQLite" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stephencelis/SQLite.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.15.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		833F85622CE3196300AC8C7E /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 833F85612CE3196300AC8C7E /* XCRemoteSwiftPackageReference "SQLite" */;
+			productName = SQLite;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 833F85242CE315C400AC8C7E /* Project object */;
+}

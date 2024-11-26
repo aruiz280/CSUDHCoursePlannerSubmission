@@ -1,6 +1,6 @@
 import SwiftUI
 import PDFKit
-
+//////////////////////
 struct UploadTranscriptView: View {
     // State variables for managing the UI and user interactions
     @State private var showDocumentPicker = false // Toggles the document picker
@@ -73,13 +73,22 @@ struct UploadTranscriptView: View {
 
     // MARK: - File Handling
     /// Handles the file once it is picked by the user
+    // UploadTranscriptView.swift
     private func handleFilePicked(url: URL) {
         isProcessing = true
-        transcriptContent = parsePDF(url: url) // Parse the PDF content
-        processTranscript(content: transcriptContent) // Process the extracted content
-        isProcessing = false
-        successMessage = "Transcript successfully uploaded and processed!" // Notify user
+        DispatchQueue.global().async {
+            self.transcriptContent = self.parsePDF(url: url) // Parse the PDF content
+            self.processTranscript(content: self.transcriptContent) // Process the extracted content
+            DispatchQueue.main.async {
+                self.isProcessing = false
+                self.successMessage = "Transcript successfully uploaded and processed!"
+                
+                // Print the contents of the CompletedCourses table
+                DatabaseManager.shared.printAllCompletedCourses()
+            }
+        }
     }
+
 
     // MARK: - PDF Parsing
     /// Extracts text content from the PDF
@@ -101,43 +110,30 @@ struct UploadTranscriptView: View {
         let lines = content.split(separator: "\n").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
         var studentID = ""
         var courses: [(courseID: String, courseName: String, grade: String, category: String)] = []
+        var tempLine = ""
 
-        var currentCourseID = ""
-        var currentCourseName = ""
-        var currentGrade = ""
-
-        for (index, line) in lines.enumerated() {
+        for line in lines {
             // Extract Student ID
             if line.contains("Student ID") {
                 studentID = extractStudentID(from: line)
+                continue
             }
 
-            // Extract Course ID
-            if line.contains("Course") {
-                let nextLineIndex = index + 1
-                if nextLineIndex < lines.count {
-                    currentCourseID = lines[nextLineIndex]
+            // Combine multi-line course descriptions
+            if line.range(of: #"^[A-Z]{3} \d{3}"#, options: .regularExpression) != nil {
+                // Course ID pattern
+                if !tempLine.isEmpty {
+                    processCourseLine(tempLine, into: &courses)
                 }
+                tempLine = line
+            } else {
+                tempLine += " " + line // Append to previous line
             }
+        }
 
-            // Extract Course Description
-            if line.contains("Description") {
-                let nextLineIndex = index + 1
-                if nextLineIndex < lines.count {
-                    currentCourseName = lines[nextLineIndex]
-                }
-            }
-
-            // Extract Grade
-            if line.contains("Grade") {
-                let nextLineIndex = index + 1
-                if nextLineIndex < lines.count {
-                    currentGrade = lines[nextLineIndex]
-                    // After extracting all necessary data, add the entry to the courses list
-                    let category = determineCategory(for: currentCourseID)
-                    courses.append((courseID: currentCourseID, courseName: currentCourseName, grade: currentGrade, category: category))
-                }
-            }
+        // Process the last accumulated line
+        if !tempLine.isEmpty {
+            processCourseLine(tempLine, into: &courses)
         }
 
         // Insert extracted data into the database
@@ -150,7 +146,77 @@ struct UploadTranscriptView: View {
                 category: course.category
             )
         }
+
         successMessage = "Transcript processed successfully! \(courses.count) courses added."
+    }
+
+
+    // MARK: - Helper for Processing Course Lines
+    /// Processes a single course line and appends it to the courses array
+    private func processCourseLine(_ line: String, into courses: inout [(courseID: String, courseName: String, grade: String, category: String)]) {
+        let courseSegments = splitMultipleCourses(from: line)
+        for segment in courseSegments {
+            if let courseData = parseCourseLine(segment) {
+                courses.append(courseData)
+            }
+        }
+    }
+
+    // MARK: - Parse Individual Course Line
+    /// Extracts data from a course row
+    private func parseCourseLine(_ line: String) -> (courseID: String, courseName: String, grade: String, category: String)? {
+        // Flexible pattern to match course lines
+        let pattern = #"^([A-Z]{3} \d{3})\s+(.+?)\s+(?:\d+\.\d{3})?\s+(?:\d+\.\d{3})?\s+([A-F][+-]?)?"#
+        let regex = try? NSRegularExpression(pattern: pattern, options: [])
+
+        if let match = regex?.firstMatch(in: line, options: [], range: NSRange(location: 0, length: line.utf16.count)) {
+            let courseID = String(line[Range(match.range(at: 1), in: line)!])
+            let courseName = String(line[Range(match.range(at: 2), in: line)!])
+            let grade: String
+            if let gradeRange = Range(match.range(at: 3), in: line) {
+                grade = String(line[gradeRange])
+            } else {
+                grade = "N/A" // Default if grade is missing
+            }
+            let category = determineCategory(for: courseID)
+            return (courseID, courseName, grade, category)
+        }
+
+        // Log skipped line for debugging
+        print("Skipped line: \(line)")
+        return nil
+    }
+
+    // MARK: - Split Multiple Courses
+    /// Splits the line by course ID patterns (e.g., "CSC 115", "MAT 153")
+    private func splitMultipleCourses(from line: String) -> [String] {
+        let coursePattern = #"([A-Z]{3} \d{3})"# // Match course IDs like "CSC 115"
+        let regex = try? NSRegularExpression(pattern: coursePattern, options: [])
+        let matches = regex?.matches(in: line, options: [], range: NSRange(location: 0, length: line.utf16.count)) ?? []
+
+        var segments: [String] = []
+        var lastIndex = line.startIndex
+
+        for match in matches {
+            if let range = Range(match.range, in: line) {
+                // Extract content before the current match
+                if lastIndex != range.lowerBound {
+                    let segment = String(line[lastIndex..<range.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
+                    if !segment.isEmpty {
+                        segments.append(segment)
+                    }
+                }
+                lastIndex = range.lowerBound
+            }
+        }
+
+        // Add the last remaining part of the line
+        let remaining = String(line[lastIndex...]).trimmingCharacters(in: .whitespacesAndNewlines)
+        if !remaining.isEmpty {
+            segments.append(remaining)
+        }
+
+        return segments
     }
 
     // MARK: - Extract Student ID
@@ -163,7 +229,7 @@ struct UploadTranscriptView: View {
     // MARK: - Determine Category
     /// Determines the category of the course based on the course ID
     private func determineCategory(for courseID: String) -> String {
-        let csKeywords = ["CSC", "MAT", "PHY"] // Add other Computer Science keywords if necessary
+        let csKeywords = ["CSC", "MAT", "PHY", "CIS"] // Add other Computer Science-related codes if necessary
         for keyword in csKeywords {
             if courseID.uppercased().contains(keyword) {
                 return "Computer Science"
@@ -171,5 +237,7 @@ struct UploadTranscriptView: View {
         }
         return "General Education"
     }
+
+
 
 }

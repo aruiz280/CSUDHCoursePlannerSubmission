@@ -266,6 +266,37 @@ extension DatabaseManager {
             print("Error clearing CompletedCourses table: \(error)")
         }
     }
+    
+    // DatabaseManager.swift
+    func printAllCompletedCourses() {
+        guard let db = db else {
+            print("Database connection not initialized.")
+            return
+        }
+
+        let query = "SELECT studentID, courseID, courseName, grade, category FROM CompletedCourses"
+        print("Fetching all rows from CompletedCourses...")
+
+        do {
+            for row in try db.prepare(query) {
+                let studentID = row[0] as? String ?? "N/A"
+                let courseID = row[1] as? String ?? "N/A"
+                let courseName = row[2] as? String ?? "N/A"
+                let grade = row[3] as? String ?? "N/A"
+                let category = row[4] as? String ?? "N/A"
+
+                print("""
+                Student ID: \(studentID)
+                Course ID: \(courseID)
+                Course Name: \(courseName)
+                Grade: \(grade)
+                Category: \(category)
+                """)
+            }
+        } catch {
+            print("Error fetching courses: \(error)")
+        }
+    }
 
 }
 

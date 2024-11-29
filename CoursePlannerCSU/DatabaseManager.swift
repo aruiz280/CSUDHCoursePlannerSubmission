@@ -235,6 +235,28 @@ class DatabaseManager {
 }
 
 extension DatabaseManager {
+    func getAllCompletedCourses() -> [(studentID: String, courseID: String, courseName: String, grade: String, category: String)] {
+            guard let db = db else { return [] }
+            var courses = [(studentID: String, courseID: String, courseName: String, grade: String, category: String)]()
+            
+            let query = "SELECT studentID, courseID, courseName, grade, category FROM CompletedCourses"
+            do {
+                for row in try db.prepare(query) {
+                    let studentID = row[0] as? String ?? "N/A"
+                    let courseID = row[1] as? String ?? "N/A"
+                    let courseName = row[2] as? String ?? "N/A"
+                    let grade = row[3] as? String ?? "N/A"
+                    let category = row[4] as? String ?? "N/A"
+                    
+                    courses.append((studentID, courseID, courseName, grade, category))
+                }
+            } catch {
+                print("❌ Error fetching courses: \(error)")
+            }
+            return courses
+        }
+    
+    
     func insertIntoCompletedCourses(studentID: String, courseID: String, courseName: String, grade: String, category: String) {
         guard let db = db else { return }
         let query = """

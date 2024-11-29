@@ -8,6 +8,8 @@ struct UploadTranscriptView: View {
     @State private var isProcessing = false // Indicates whether processing is ongoing
     @State private var successMessage: String? // Displays success or error messages to the user
     @State private var showConfirmationDialog = false // Toggles the reset confirmation dialog
+    @State private var completedCourses: [(studentID: String, courseID: String, courseName: String, grade: String, category: String)] = []
+    @State private var showCourseList: Bool = false
 
     var body: some View {
         VStack {
@@ -56,6 +58,48 @@ struct UploadTranscriptView: View {
                     secondaryButton: .cancel()
                 )
             }
+            
+            Button(action: {
+                showCourseList.toggle()
+                if showCourseList {
+                    fetchCompletedCourses()
+                }
+            }) {
+                Text(showCourseList ? "Hide CompletedCourses" : "Show CompletedCourses")
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.green)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+            }
+            .padding()
+
+            if showCourseList {
+                if !completedCourses.isEmpty {
+                    Text("Completed Courses")
+                        .font(.title2)
+                        .bold()
+                        .padding(.top)
+
+                    List(completedCourses, id: \.courseID) { course in
+                        VStack(alignment: .leading) {
+                            Text("\(course.courseID): \(course.courseName)")
+                                .font(.headline)
+                            Text("Grade: \(course.grade) | Category: \(course.category)")
+                                .font(.subheadline)
+                            Text("Student ID: \(course.studentID)")
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                        }
+                        .padding(.vertical, 4)
+                    }
+                } else {
+                    Text("No courses found.")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                        .padding()
+                }
+            }
 
             // Success Message
             if let message = successMessage {
@@ -70,7 +114,16 @@ struct UploadTranscriptView: View {
         .padding()
     }
 
-
+    private func fetchCompletedCourses() {
+        print("Fetching all courses from CompletedCourses table...")
+        completedCourses = DatabaseManager.shared.getAllCompletedCourses()
+        if completedCourses.isEmpty {
+            print("⚠️ No courses found in CompletedCourses table.")
+        } else {
+            print("✅ Fetched \(completedCourses.count) courses.")
+        }
+    }
+    
     // MARK: - File Handling
     /// Handles the file once it is picked by the user
     // UploadTranscriptView.swift

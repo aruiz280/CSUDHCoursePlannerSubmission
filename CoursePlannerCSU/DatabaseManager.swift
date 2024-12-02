@@ -322,6 +322,136 @@ extension DatabaseManager {
 
 }
 
+extension DatabaseManager {
+    /// Fetch unmet degree requirements using the provided SQL query
+    func fetchUnmetDegreeRequirements() -> [(courseID: String, courseName: String, category: String)] {
+        guard let db = db else {
+            print("❌ Database connection not initialized.")
+            return []
+        }
+
+        let query = """
+        WITH MatchedCourses AS (
+            SELECT
+                cc.courseID AS CompletedCourseID,
+                dr.courseID AS DegreeRequirementCourseID,
+                dr.category
+            FROM CompletedCourses cc
+            INNER JOIN DegreeRequirements dr
+                ON cc.courseID = dr.courseID
+            WHERE cc.grade IN ('A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'N/A') -- Include passing grades and N/A
+        ),
+        FulfilledCategories AS (
+            SELECT DISTINCT
+                category
+            FROM MatchedCourses
+        ),
+        DependentCategories AS (
+            SELECT 
+                'B - B2' AS FulfilledCategory, 
+                'B - B3' AS DependentCategory -- Define dependent relationships
+            ),
+        FilteredGeneralEducationRequirements AS (
+            SELECT *
+            FROM DegreeRequirements dr
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM FulfilledCategories fc
+                WHERE dr.category = fc.category -- Exclude fulfilled categories
+                   OR dr.category IN (
+                        SELECT DependentCategory 
+                        FROM DependentCategories dc
+                        WHERE dc.FulfilledCategory = fc.category -- Exclude dependent categories
+                   )
+            )
+        ),
+        ElectiveCounter AS (
+            SELECT
+                COUNT(*) AS MatchedElectives
+            FROM MatchedCourses
+            WHERE category = 'Elective'
+        ),
+        FilteredComputerScienceRequirements AS (
+            SELECT *
+            FROM DegreeRequirements dr
+            WHERE dr.category IN ('Upper', 'Lower', 'Elective') -- Focus on Computer Science categories
+            AND NOT EXISTS (
+                SELECT 1
+                FROM MatchedCourses mc
+                WHERE dr.courseID = mc.DegreeRequirementCourseID
+                AND dr.category IN ('Upper', 'Lower') -- Remove matched Upper and Lower courses
+            )
+            AND NOT (
+                dr.category = 'Elective'
+                AND (
+                    -- Remove all electives if 2 are matched
+                    (SELECT MatchedElectives FROM ElectiveCounter) >= 2
+                    -- Remove only the matched elective if 1 is detected
+                    OR (
+                        (SELECT MatchedElectives FROM ElectiveCounter) = 1
+                        AND dr.courseID IN (SELECT DegreeRequirementCourseID FROM MatchedCourses WHERE category = 'Elective')
+                    )
+                )
+            )
+            -- Exclude MAT 361 if CSC 371 is in CompletedCourses
+            AND NOT (
+                dr.courseID = 'MAT 361'
+                AND EXISTS (
+                    SELECT 1
+                    FROM CompletedCourses cc
+                    WHERE cc.courseID = 'CSC 371'
+                    AND cc.grade IN ('A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'N/A') -- Ensure passing grade
+                )
+            )
+            -- Exclude MAT 271 if CSC 300 is in CompletedCourses
+            AND NOT (
+                dr.courseID = 'MAT 271'
+                AND EXISTS (
+                    SELECT 1
+                    FROM CompletedCourses cc
+                    WHERE cc.courseID = 'CSC 300'
+                    AND cc.grade IN ('A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'N/A') -- Ensure passing grade
+                )
+            )
+            -- Exclude MAT 281 if CSC 281 is in CompletedCourses
+            AND NOT (
+                dr.courseID = 'MAT 281'
+                AND EXISTS (
+                    SELECT 1
+                    FROM CompletedCourses cc
+                    WHERE cc.courseID = 'CSC 281'
+                    AND cc.grade IN ('A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'N/A')
+                )
+            )
+        ),
+        MergedRequirements AS (
+            SELECT * FROM FilteredGeneralEducationRequirements
+            UNION ALL
+            SELECT * FROM FilteredComputerScienceRequirements
+        )
+        SELECT courseID, courseName, category
+        FROM MergedRequirements;
+        """
+
+        var requirements = [(courseID: String, courseName: String, category: String)]()
+
+        do {
+            for row in try db.prepare(query) {
+                let courseID = row[0] as? String ?? "N/A"
+                let courseName = row[1] as? String ?? "N/A"
+                let category = row[2] as? String ?? "N/A"
+                requirements.append((courseID, courseName, category))
+            }
+        } catch {
+            print("❌ Error fetching unmet requirements: \(error)")
+        }
+
+        return requirements
+    }
+}
+
+
+
 
 
 

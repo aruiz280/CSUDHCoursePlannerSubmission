@@ -3,7 +3,6 @@ import SwiftUI
 struct ViewAcademicRequirements: View {
     @State private var requirements: [(courseID: String, courseName: String, category: String)] = []
     @State private var expandedCategories: Set<String> = [] // Tracks expanded categories
-    @State private var searchText: String = "" // For dynamic filtering
 
     var body: some View {
         VStack {
@@ -14,162 +13,140 @@ struct ViewAcademicRequirements: View {
                 .padding(.top)
                 .foregroundColor(Color.blue)
 
-            // Search bar
-            HStack {
-                TextField("Search by course or category", text: $searchText)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.horizontal)
-            }
-            .padding(.bottom)
-
             // Display requirements
-            if filteredRequirements().isEmpty {
+            if requirements.isEmpty {
                 Text("No unmet requirements found.")
                     .font(.headline)
                     .foregroundColor(.gray)
                     .padding(.top, 20)
             } else {
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 30) {
+                    LazyVStack(alignment: .leading, spacing: 30) {
                         // Unmet GE Requirements Section
                         if !groupedRequirementsGE().isEmpty {
                             VStack(alignment: .leading, spacing: 10) {
-                                Text("Unmet GE Requirements")
-                                    .font(.largeTitle)
-                                    .fontWeight(.heavy)
-                                    .padding()
-                                    .foregroundColor(.black)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                // Enhanced Section Header (Black Box)
+                                HStack {
+                                    Text("Unmet GE Requirements")
+                                        .font(.system(size: 26, weight: .bold))
+                                        .foregroundColor(.white)
+                                        .padding()
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .background(Color.black)
+                                        .cornerRadius(10)
+                                        .shadow(radius: 5)
+                                }
+                                .frame(height: 100) // Taller than category boxes
+                                .padding(.horizontal)
 
-                                LazyVStack(alignment: .leading, spacing: 20) {
-                                    ForEach(groupedRequirementsGE(), id: \.key) { category, courses in
-                                        VStack(alignment: .leading, spacing: 10) {
-                                            // Category Header
-                                            Button(action: {
-                                                toggleCategoryExpansion(category)
-                                            }) {
-                                                HStack {
-                                                    Text("Category: \(category)")
-                                                        .font(.title3)
-                                                        .fontWeight(.semibold)
-                                                        .foregroundColor(.white)
-                                                    Spacer()
-                                                    Image(systemName: expandedCategories.contains(category) ? "chevron.up" : "chevron.down")
-                                                        .foregroundColor(.white)
-                                                }
-                                                .padding()
-                                                .background(categoryColor(category))
-                                                .cornerRadius(10)
+                                ForEach(groupedRequirementsGE(), id: \.key) { category, courses in
+                                    VStack(alignment: .leading, spacing: 10) {
+                                        // Category Header
+                                        Button(action: {
+                                            toggleCategoryExpansion(category)
+                                        }) {
+                                            HStack {
+                                                Text("Category: \(category)")
+                                                    .font(.title3)
+                                                    .fontWeight(.semibold)
+                                                    .foregroundColor(.white)
+                                                Spacer()
+                                                Image(systemName: expandedCategories.contains(category) ? "chevron.up" : "chevron.down")
+                                                    .foregroundColor(.white)
                                             }
+                                            .padding()
+                                            .background(categoryColor(category))
+                                            .cornerRadius(10)
+                                        }
 
-                                            // Courses List (visible only if category is expanded)
-                                            if expandedCategories.contains(category) {
-                                                ForEach(courses, id: \.courseID) { course in
-                                                    HStack {
-                                                        VStack(alignment: .leading, spacing: 5) {
-                                                            Text("\(course.courseID): \(course.courseName)")
-                                                                .font(.headline)
-                                                            Text("Category: \(course.category)")
-                                                                .font(.subheadline)
-                                                                .foregroundColor(.gray)
-                                                        }
-                                                        Spacer()
-                                                        Button(action: {
-                                                            // Placeholder for Add Course functionality
-                                                        }) {
-                                                            Text("Add Course")
-                                                                .font(.footnote)
-                                                                .foregroundColor(.blue)
-                                                                .padding(.vertical, 8)
-                                                                .padding(.horizontal, 12)
-                                                                .overlay(
-                                                                    RoundedRectangle(cornerRadius: 5)
-                                                                        .stroke(Color.blue, lineWidth: 1)
-                                                                )
-                                                        }
+                                        // Courses List (visible only if category is expanded)
+                                        if expandedCategories.contains(category) {
+                                            ForEach(removeDuplicates(from: courses), id: \.courseID) { course in
+                                                HStack {
+                                                    VStack(alignment: .leading, spacing: 5) {
+                                                        Text("\(course.courseID): \(course.courseName)")
+                                                            .font(.headline)
+                                                            .foregroundColor(.black)
+                                                        Text("Category: \(course.category)")
+                                                            .font(.subheadline)
+                                                            .foregroundColor(.gray)
                                                     }
-                                                    .frame(height: 80) // Uniform size for all course boxes
-                                                    .padding(10)
-                                                    .background(Color.white)
-                                                    .cornerRadius(8)
-                                                    .shadow(radius: 2)
+                                                    Spacer()
                                                 }
+                                                .padding(10)
+                                                .background(Color.white)
+                                                .cornerRadius(8)
+                                                .shadow(radius: 2)
+                                                .frame(height: 80) // Uniform size for all boxes
+                                                .padding(.horizontal)
                                             }
                                         }
                                     }
                                 }
-                                .padding(.horizontal)
                             }
                         }
 
                         // Unmet CSC Requirements Section
                         if !groupedRequirementsCSC().isEmpty {
                             VStack(alignment: .leading, spacing: 10) {
-                                Text("Unmet CSC Requirements")
-                                    .font(.largeTitle)
-                                    .fontWeight(.heavy)
-                                    .padding()
-                                    .foregroundColor(.black)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                // Enhanced Section Header (Black Box)
+                                HStack {
+                                    Text("Unmet CSC Requirements")
+                                        .font(.system(size: 26, weight: .bold))
+                                        .foregroundColor(.white)
+                                        .padding()
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .background(Color.black)
+                                        .cornerRadius(10)
+                                        .shadow(radius: 5)
+                                }
+                                .frame(height: 100) // Taller than category boxes
+                                .padding(.horizontal)
 
-                                LazyVStack(alignment: .leading, spacing: 20) {
-                                    ForEach(groupedRequirementsCSC(), id: \.key) { category, courses in
-                                        VStack(alignment: .leading, spacing: 10) {
-                                            // Category Header
-                                            Button(action: {
-                                                toggleCategoryExpansion(category)
-                                            }) {
-                                                HStack {
-                                                    Text("Category: \(category)")
-                                                        .font(.title3)
-                                                        .fontWeight(.semibold)
-                                                        .foregroundColor(.white)
-                                                    Spacer()
-                                                    Image(systemName: expandedCategories.contains(category) ? "chevron.up" : "chevron.down")
-                                                        .foregroundColor(.white)
-                                                }
-                                                .padding()
-                                                .background(categoryColor(category))
-                                                .cornerRadius(10)
+                                ForEach(groupedRequirementsCSC(), id: \.key) { category, courses in
+                                    VStack(alignment: .leading, spacing: 10) {
+                                        // Category Header
+                                        Button(action: {
+                                            toggleCategoryExpansion(category)
+                                        }) {
+                                            HStack {
+                                                Text("Category: \(category)")
+                                                    .font(.title3)
+                                                    .fontWeight(.semibold)
+                                                    .foregroundColor(.white)
+                                                Spacer()
+                                                Image(systemName: expandedCategories.contains(category) ? "chevron.up" : "chevron.down")
+                                                    .foregroundColor(.white)
                                             }
+                                            .padding()
+                                            .background(categoryColor(category))
+                                            .cornerRadius(10)
+                                        }
 
-                                            // Courses List (visible only if category is expanded)
-                                            if expandedCategories.contains(category) {
-                                                ForEach(courses, id: \.courseID) { course in
-                                                    HStack {
-                                                        VStack(alignment: .leading, spacing: 5) {
-                                                            Text("\(course.courseID): \(course.courseName)")
-                                                                .font(.headline)
-                                                            Text("Category: \(course.category)")
-                                                                .font(.subheadline)
-                                                                .foregroundColor(.gray)
-                                                        }
-                                                        Spacer()
-                                                        Button(action: {
-                                                            // Placeholder for Add Course functionality
-                                                        }) {
-                                                            Text("Add Course")
-                                                                .font(.footnote)
-                                                                .foregroundColor(.blue)
-                                                                .padding(.vertical, 8)
-                                                                .padding(.horizontal, 12)
-                                                                .overlay(
-                                                                    RoundedRectangle(cornerRadius: 5)
-                                                                        .stroke(Color.blue, lineWidth: 1)
-                                                                )
-                                                        }
+                                        // Courses List (visible only if category is expanded)
+                                        if expandedCategories.contains(category) {
+                                            ForEach(removeDuplicates(from: courses), id: \.courseID) { course in
+                                                HStack {
+                                                    VStack(alignment: .leading, spacing: 5) {
+                                                        Text("\(course.courseID): \(course.courseName)")
+                                                            .font(.headline)
+                                                            .foregroundColor(.black)
+                                                        Text("Category: \(course.category)")
+                                                            .font(.subheadline)
+                                                            .foregroundColor(.gray)
                                                     }
-                                                    .frame(height: 80) // Uniform size for all course boxes
-                                                    .padding(10)
-                                                    .background(Color.white)
-                                                    .cornerRadius(8)
-                                                    .shadow(radius: 2)
+                                                    Spacer()
                                                 }
+                                                .padding(10)
+                                                .background(Color.white)
+                                                .cornerRadius(8)
+                                                .shadow(radius: 2)
+                                                .frame(height: 80) // Uniform size for all boxes
+                                                .padding(.horizontal)
                                             }
                                         }
                                     }
                                 }
-                                .padding(.horizontal)
                             }
                         }
                     }
@@ -197,27 +174,14 @@ struct ViewAcademicRequirements: View {
 
     // Group requirements for GE
     private func groupedRequirementsGE() -> [(key: String, value: [(courseID: String, courseName: String, category: String)])] {
-        Dictionary(grouping: filteredRequirements().filter { !["Upper", "Lower", "Elective"].contains($0.category) }, by: { $0.category })
+        Dictionary(grouping: requirements.filter { !["Upper", "Lower", "Elective"].contains($0.category) }, by: { $0.category })
             .sorted(by: { $0.key < $1.key }) // Sort categories alphabetically
     }
 
     // Group requirements for CSC
     private func groupedRequirementsCSC() -> [(key: String, value: [(courseID: String, courseName: String, category: String)])] {
-        Dictionary(grouping: filteredRequirements().filter { ["Upper", "Lower", "Elective"].contains($0.category) }, by: { $0.category })
+        Dictionary(grouping: requirements.filter { ["Upper", "Lower", "Elective"].contains($0.category) }, by: { $0.category })
             .sorted(by: { $0.key < $1.key }) // Sort categories alphabetically
-    }
-
-    // Filter requirements based on search text
-    private func filteredRequirements() -> [(courseID: String, courseName: String, category: String)] {
-        if searchText.isEmpty {
-            return requirements
-        } else {
-            return requirements.filter { requirement in
-                requirement.courseID.contains(searchText) ||
-                requirement.courseName.lowercased().contains(searchText.lowercased()) ||
-                requirement.category.lowercased().contains(searchText.lowercased())
-            }
-        }
     }
 
     // Toggle category expansion
@@ -242,6 +206,16 @@ struct ViewAcademicRequirements: View {
         }
     }
 
+    // Remove duplicate courses
+    private func removeDuplicates(from courses: [(courseID: String, courseName: String, category: String)]) -> [(courseID: String, courseName: String, category: String)] {
+        var seen = Set<String>()
+        return courses.filter { course in
+            guard !seen.contains(course.courseID) else { return false }
+            seen.insert(course.courseID)
+            return true
+        }
+    }
+
     // Fetch unmet requirements from the database
     private func fetchRequirements() {
         requirements = DatabaseManager.shared.fetchUnmetDegreeRequirements()
@@ -255,12 +229,15 @@ struct ContentView: View {
     @State private var searchResults: [String] = []
     @State private var selectedCourse: Course?
     @State private var isDetailViewPresented = false
+    @State private var shoppingCart: [(courseCode: String, title: String)] = [] // Shopping cart state
+    @State private var isShoppingCartViewPresented = false
 
     let tables = ["GeneralEducationCourses", "ComputerScienceCourses", "CrossListedCourses", "CourseSchedules"]
 
     var body: some View {
         NavigationStack {
             VStack {
+                // Picker for Table Selection
                 Picker("Select Table", selection: $selectedTable) {
                     ForEach(tables, id: \.self) { table in
                         Text(table)
@@ -280,27 +257,44 @@ struct ContentView: View {
                 .onChange(of: selectedTable) {
                     resetSearch()
                 }
-                
+
+                // Search Bar
                 TextField("Search...", text: $searchQuery)
                     .padding()
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                
+
+                // Search Button
                 Button("Search") {
                     performSearch()
                 }
                 .padding()
-                
+
+                // Search Results List
                 List(searchResults, id: \.self) { result in
                     if selectedTable == "CourseSchedules" {
-                        // Display the result without a button for CourseSchedules
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text(result) // Displays the formatted search result
-                                .font(.body)
-                                .multilineTextAlignment(.leading) // Allows multiline alignment
+                        // CourseSchedules Format with Add Course Button
+                        HStack {
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text(result)
+                                    .font(.body)
+                                    .multilineTextAlignment(.leading)
+                            }
+
+                            Spacer()
+
+                            // Add Course Button for CourseSchedules
+                            Button(action: {
+                                addToShoppingCart(course: result)
+                            }) {
+                                Image(systemName: "plus.circle")
+                                    .foregroundColor(.blue)
+                                    .font(.title2)
+                            }
+                            .buttonStyle(BorderlessButtonStyle()) // Prevents list item selection
                         }
                         .padding(.vertical, 8)
                     } else {
-                        // Keep the button functionality for other tables
+                        // Original Button Functionality for Other Tables
                         Button(action: {
                             let components = result.split(separator: "\n")
                             let courseCode = components.first?.trimmingCharacters(in: .whitespaces)
@@ -311,16 +305,16 @@ struct ContentView: View {
                             isDetailViewPresented = (selectedCourse != nil)
                         }) {
                             VStack(alignment: .leading, spacing: 8) {
-                                Text(result) // Displays the formatted search result
+                                Text(result)
                                     .font(.body)
-                                    .multilineTextAlignment(.leading) // Allows multiline alignment
+                                    .multilineTextAlignment(.leading)
                             }
                             .padding(.vertical, 8)
                         }
                     }
                 }
-                
-                // Add the new "Upload Transcript" button here
+
+                // Upload Transcript Button
                 NavigationLink(destination: UploadTranscriptView()) {
                     Text("Upload Transcript")
                         .font(.headline)
@@ -329,38 +323,49 @@ struct ContentView: View {
                         .background(Color.green)
                         .foregroundColor(.white)
                         .cornerRadius(10)
-                        .shadow(radius: 5) // Adds a slight shadow for visibility
+                        .shadow(radius: 5)
                 }
                 .padding()
-                
-                NavigationStack {
-                    VStack {
-                        NavigationLink(destination: ViewAcademicRequirements()) {
-                            Text("View Academic Requirements")
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                        }
+
+                // View Academic Requirements Button
+                NavigationLink(destination: ViewAcademicRequirements()) {
+                    Text("View Academic Requirements")
                         .padding()
-                        // Other buttons or UI elements
-                    }
+                        .frame(maxWidth: .infinity)
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
                 }
-
-
-                
-                .navigationDestination(isPresented: $isDetailViewPresented) {
-                    if let course = selectedCourse {
-                        CourseDetailView(course: course, table: selectedTable)
-                    }
-                }
-                
-                
-
-
+                .padding()
             }
             .padding()
+            .navigationBarTitle("Course Planner")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                // Shopping Cart Button in the top-right corner
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        isShoppingCartViewPresented = true
+                    }) {
+                        HStack {
+                            Image(systemName: "cart.fill")
+                            Text("\(shoppingCart.count)")
+                                .font(.caption)
+                                .foregroundColor(.white)
+                                .padding(4)
+                                .background(Circle().fill(Color.red))
+                        }
+                    }
+                    .sheet(isPresented: $isShoppingCartViewPresented) {
+                        ShoppingCartView(shoppingCart: $shoppingCart)
+                    }
+                }
+            }
+            .navigationDestination(isPresented: $isDetailViewPresented) {
+                if let course = selectedCourse {
+                    CourseDetailView(course: course, table: selectedTable)
+                }
+            }
         }
     }
 
@@ -375,51 +380,146 @@ struct ContentView: View {
         guard !searchQuery.isEmpty else { return }
 
         if selectedTable == "CourseSchedules" {
-            // Fetch search results specifically for CourseSchedules
+            // Fetch search results for CourseSchedules
             let searchResultsWithSchedules = DatabaseManager.shared.searchCourseSchedules(courseCode: searchQuery)
-            
-            // Map results to include only actual data
+
+            // Format search results for display
             searchResults = searchResultsWithSchedules.map { schedule in
                 """
                 Course: \(schedule.courseCode)
-                \(schedule.title ?? "")\("\nDays: \(schedule.days ?? "")".trimmingCharacters(in: .whitespaces))
-                \(schedule.time != nil ? "Time: \(schedule.time!)" : "")
-                \(schedule.location != nil ? "Location: \(schedule.location!)" : "")
-                \(schedule.instructor != nil ? "Instructor: \(schedule.instructor!)" : "")
-                \(schedule.semester != nil ? "Semester: \(schedule.semester!)" : "")
-                \(schedule.units != nil ? "Units: \(schedule.units!)" : "")
-                \(schedule.prerequisite != nil ? "Prerequisite: \(schedule.prerequisite!)" : "")
+                Title: \(schedule.title ?? "")
+                Days: \(schedule.days ?? ""), Time: \(schedule.time ?? "")
+                Location: \(schedule.location ?? "")
+                Instructor: \(schedule.instructor ?? "")
+                Semester: \(schedule.semester ?? "")
+                Units: \(schedule.units ?? "")
+                Prerequisite: \(schedule.prerequisite ?? "")
                 """
-                .trimmingCharacters(in: .whitespacesAndNewlines) // Clean up any empty or trailing spaces/lines
             }
         } else {
-            // Handle search for other tables
+            // Original functionality for other tables
             searchResults = DatabaseManager.shared.searchCourses(in: selectedTable, code: searchQuery)
         }
     }
 
+    private func addToShoppingCart(course: String) {
+        let components = course.split(separator: "\n")
+        let courseCode = components.first?.trimmingCharacters(in: .whitespaces) ?? "Unknown"
+        let title = components.dropFirst().joined(separator: " ").trimmingCharacters(in: .whitespaces)
 
-
-
-    private func fetchCourseDetails(for entry: String) {
-        selectedCourse = DatabaseManager.shared.fetchCourseDetails(forEntry: entry, inTable: selectedTable)
-        isDetailViewPresented = (selectedCourse != nil)
+        shoppingCart.append((courseCode: courseCode, title: title))
     }
-    
-    func formatSearchResult(schedule: (courseCode: String, scheduleID: Int, days: String?, time: String?, instructor: String?, location: String?, semester: String?, title: String?, units: String?, prerequisite: String?)) -> String {
-        return """
-        Course Code: \(schedule.courseCode)
-        Title: \(schedule.title ?? "")
-        Days: \(schedule.days ?? ""), Time: \(schedule.time ?? "")
-        Instructor: \(schedule.instructor ?? "")
-        Location: \(schedule.location ?? "")
-        Semester: \(schedule.semester ?? "")
-        Units: \(schedule.units ?? "")
-        Prerequsite: \(schedule.prerequisite ?? "")
-        """
-    }
-
-
 }
 
-//rever to this point
+struct ShoppingCartView: View {
+    @Binding var shoppingCart: [(courseCode: String, title: String)] // Binding to the shopping cart in ContentView
+    @State private var errorMessage: String? // State for error message
+    @State private var isSuccessMessageVisible = false // State to show success message
+
+    var body: some View {
+        NavigationStack {
+            VStack {
+                // Title
+                Text("Your Shopping Cart")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .padding()
+
+                // Error Message Display
+                if let errorMessage = errorMessage {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                }
+                if !shoppingCart.isEmpty {
+                    Text("Please verify you have met all prerequisite courses before registering.")
+                        .font(.subheadline)
+                        .foregroundColor(.red)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                        .background(Color.yellow.opacity(0.2))
+                        .cornerRadius(8)
+                        .padding(.horizontal)
+                }
+
+                // Check if the shopping cart is empty
+                if shoppingCart.isEmpty {
+                    Text("No courses in your shopping cart.")
+                        .font(.headline)
+                        .foregroundColor(.gray)
+                        .padding()
+                } else {
+                    List {
+                        // List of courses in the shopping cart
+                        ForEach(shoppingCart, id: \.courseCode) { course in
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text(course.courseCode)
+                                    .font(.headline)
+                                Text(course.title)
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
+                            .padding()
+
+                            // Remove Button
+                            Button(action: {
+                                removeFromShoppingCart(course: course)
+                            }) {
+                                Text("Remove Course")
+                                    .padding(8)
+                                    .frame(maxWidth: .infinity)
+                                    .background(Color.red)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(8)
+                            }
+                        }
+                    }
+
+                    // Register Courses Button
+                    Button(action: registerCourses) {
+                        Text("Register Courses")
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.green)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    .padding()
+                    .alert("Success", isPresented: $isSuccessMessageVisible) {
+                        Button("OK", role: .cancel) { }
+                    } message: {
+                        Text("Courses for Spring 2025 have been scheduled!")
+                    }
+                }
+
+                Spacer()
+            }
+            .padding()
+            .navigationTitle("Shopping Cart")
+        }
+    }
+
+    // Remove a course from the shopping cart
+    private func removeFromShoppingCart(course: (courseCode: String, title: String)) {
+        if let index = shoppingCart.firstIndex(where: { $0.courseCode == course.courseCode }) {
+            shoppingCart.remove(at: index)
+        }
+    }
+
+    // Register Courses Logic
+    private func registerCourses() {
+        // Check for duplicates in the shopping cart
+        let courseCodeCounts = Dictionary(grouping: shoppingCart, by: { $0.courseCode }).mapValues { $0.count }
+
+        if let duplicate = courseCodeCounts.first(where: { $0.value > 1 }) {
+            // If duplicates exist, show error message
+            errorMessage = "You have multiple instances of \(duplicate.key). Please verify your selecion to Register for Spring 2025."
+        } else {
+            // No duplicates, proceed with registration
+            errorMessage = nil
+            isSuccessMessageVisible = true
+            // Add additional logic here to save the courses to a database or mark them as registered
+        }
+    }
+}
